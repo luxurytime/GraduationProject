@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Server</string>
+    <string name="title">学生签到系统服务器端</string>
+</resources>
