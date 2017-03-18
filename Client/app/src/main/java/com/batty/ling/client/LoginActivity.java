@@ -3,36 +3,22 @@ package com.batty.ling.client;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStream;
+import java.net.Socket;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import model.StudentInfo;
 
 /**
  * A login screen that offers login via email/password.
@@ -44,6 +30,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mStudentName;
     private View mProgressView;
     private View mLoginFormView;
+    private OutputStream outputStream = null;
+    private Socket socket = null;
+    private String ip;
+    private String data;
+    private boolean socketStatus = false;
+    public static StudentInfo studentInfo = new StudentInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,27 +64,26 @@ public class LoginActivity extends AppCompatActivity {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
-
-
-        // Reset errors.
-        mStudentID.setError(null);
-        mStudentName.setError(null);
-
-
-        boolean cancel = false;
-        View focusView = null;
+    private void attemptLogin () {
+        studentInfo.setStudentId(mStudentID.getText().toString());
+        studentInfo.setStudentName((mStudentName.getText().toString()));
+        Log.e("id",mStudentID.getText().toString());
         showProgress(true);
-    }
+        if (isAccountValid(studentInfo.getStudentId())) {
+            Intent intent = new Intent();
+            intent.setClass(LoginActivity.this,MainActivity.class);
+            LoginActivity.this.finish();
+            LoginActivity.this.startActivity(intent);
+        } else {
+            showProgress(false);
+            Toast.makeText(LoginActivity.this, R.string.wrongID, Toast.LENGTH_LONG).show();
+        }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
+}
 
-    private boolean isPasswordValid(String password) {
+    private boolean isAccountValid(String studentID) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return studentID.length() == 8;
     }
 
     /**
@@ -130,5 +121,7 @@ public class LoginActivity extends AppCompatActivity {
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
+
 }
 
