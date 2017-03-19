@@ -15,11 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.OutputStream;
-import java.net.Socket;
-
-import model.StudentInfo;
-
 /**
  * A login screen that offers login via email/password.
  */
@@ -30,12 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mStudentName;
     private View mProgressView;
     private View mLoginFormView;
-    private OutputStream outputStream = null;
-    private Socket socket = null;
-    private String ip;
-    private String data;
-    private boolean socketStatus = false;
-    public static StudentInfo studentInfo = new StudentInfo();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +55,11 @@ public class LoginActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin () {
-        studentInfo.setStudentId(mStudentID.getText().toString());
-        studentInfo.setStudentName((mStudentName.getText().toString()));
+        SigninFragment.studentModel.setStudentId(mStudentID.getText().toString());
+        SigninFragment.studentModel.setStudentName((mStudentName.getText().toString()));
         Log.e("id",mStudentID.getText().toString());
         showProgress(true);
-        if (isAccountValid(studentInfo.getStudentId())) {
+        if (isAccountValid(SigninFragment.studentModel.getStudentId())) {
             Intent intent = new Intent();
             intent.setClass(LoginActivity.this,MainActivity.class);
             LoginActivity.this.finish();

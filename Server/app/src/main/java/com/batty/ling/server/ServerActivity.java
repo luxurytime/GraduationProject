@@ -45,6 +45,8 @@ public class ServerActivity extends AppCompatActivity {
                 SSID = mSSIDView.getText().toString();
                 Password = mPasswordView.getText().toString();
                 wifiApAdmin.startWifiAp(SSID, Password);
+
+
             }
         });
         mButton2 = (Button)findViewById(R.id.button2);

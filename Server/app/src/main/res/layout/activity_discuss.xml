@@ -5,4 +5,43 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.batty.ling.server.MainActivity">
+
+
+    <ScrollView
+        android:id="@+id/msgScrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorGrey"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/msgTextview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:text="" />
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="11"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/sendMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+
+            android:id="@+id/sendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="@string/send" />
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -1,5 +1,5 @@
 package com.batty.ling.client;
-import model.StudentInfo;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,36 +8,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import static com.batty.ling.client.LoginActivity.studentInfo;
+import model.MessageModel;
+import model.StudentModel;
+
 
 public class SigninFragment extends Fragment {
 
+
+    public static StudentModel studentModel = new StudentModel();
     private TextView mTextView;
     private Button mButton;
     private String checkinfo;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         View signinLayout = inflater.inflate(R.layout.fragment_signin, container, false);
 
         mTextView = (TextView) signinLayout.findViewById(R.id.checkTextView);
-        studentInfo.setStudentMac("");
-        studentInfo.setLocation("");
-        checkinfo = "\n" + " " + this.getString(R.string.student_id) + " : " + studentInfo.getStudentId() + "\n" +
-                " " + this.getString(R.string.student_name) + " : "  + studentInfo.getStudentName() + "\n" +
-                " " + this.getString(R.string.student_mac) + " : "  + studentInfo.getStudentMac()+ "\n" +
-                " " + this.getString(R.string.student_location) + " : "  + studentInfo.getLocation() + "\n";
+        studentModel.setStudentMac("");
+        checkinfo = "\n" + " " + this.getString(R.string.student_id) + " : " + studentModel.getStudentId() + "\n" +
+                " " + this.getString(R.string.student_name) + " : "  + studentModel.getStudentName() + "\n" +
+                " " + this.getString(R.string.student_mac) + " : "  + studentModel.getStudentMac()+ "\n\n";
         mTextView.setText(checkinfo.toString());
 
         mButton = (Button) signinLayout.findViewById(R.id.button);
@@ -52,19 +49,28 @@ public class SigninFragment extends Fragment {
                         try {
                             String ip = "192.168.43.1";
                             Socket socket = new Socket(ip, 8000);
+
+                            //建立输出流
                             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket
                                     .getOutputStream());
-                            Log.e("id",studentInfo.getStudentId());
-                            Log.e("name",studentInfo.getStudentName());
-
-                            objectOutputStream.writeObject(studentInfo);
-
-//                            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-//                            Object obj = objectInputStream.readObject();
+                            Log.e("id", studentModel.getStudentId());
+                            Log.e("name", studentModel.getStudentName());
+                            objectOutputStream.writeObject(studentModel);
                             objectOutputStream.flush();
 
+                            //建立输入流
+                            ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                            Object obj = objectInputStream.readObject();
+                            if (obj != null) {
+                                studentModel = (StudentModel) obj;//把接收到的对象转化为annouce
+//                                Log.e("id", annouce.getAnnoucemsg().toString());
+                            }
+                            objectInputStream.close();
                             objectOutputStream.close();
                             socket.close();
+                        }catch (ClassNotFoundException e){
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
                         } catch (UnknownHostException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -76,7 +82,7 @@ public class SigninFragment extends Fragment {
                     }
                 }).start();
                 mButton.setText("已签到");
-                mButton.setClickable(false);
+//                mButton.setClickable(false);
             }
         });
         return signinLayout;

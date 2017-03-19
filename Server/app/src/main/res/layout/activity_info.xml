@@ -7,27 +7,35 @@
     tools:context="com.batty.ling.server.MainActivity">
 
     <TextView
+        android:id="@+id/titleTextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/course_announce"
+        android:layout_margin="1dp"
+        android:text="课程公告"
         android:textAlignment="center"
-        android:textSize="20dp" />
+        android:textSize="28dp"
+        android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/editText"
+    <ScrollView
+        android:id="@+id/msgScrollview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:textAlignment="viewStart"
-        android:textColorLink="@color/colorWhite" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorGrey"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/announceMsgView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:id="@+id/publishButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button2"
-        android:layout_weight="0.5"
-        android:text="发布" />
+        android:text="@string/send" />
+
 
 </LinearLayout>

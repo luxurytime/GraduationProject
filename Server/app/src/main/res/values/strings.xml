@@ -10,6 +10,11 @@
     <string name="ssid">网络SSID</string>
     <string name="password">密码</string>
     <string name="course_announce">课程公告</string>
+    <string name="send">发送</string>
+    <string name="publshAnnounce">发布</string>
+
+
+
 
 
 

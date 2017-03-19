@@ -15,6 +15,9 @@
     <string name="check_hint">请检查签到信息中的学号姓名是否正确(注意:每部手机凭借唯一Mac地址进行签到,请勿代签!!!)</string>
 
 
+    <string name="get">获取</string>
+    <string name="send">发送</string>
+
 
 
     <string name="title_activity_main">MainActivity</string>
